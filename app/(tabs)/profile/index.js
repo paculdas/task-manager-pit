@@ -23,7 +23,7 @@ const Index = () => {
   const fetchTaskData = async () => {
     const userId = await AsyncStorage.getItem('userId');
     try {
-      const response = await axios.get(`http://192.168.1.3:3000/todos/${userId}/count`);
+      const response = await axios.get(`http://127.0.0.1:3000/todos/${userId}/count`);
       const { totalCompletedTodos, totalPendingTodos } = response.data;
       setCompletedTasks(totalCompletedTodos);
       setPendingTasks(totalPendingTodos);
@@ -36,7 +36,7 @@ const Index = () => {
     const userId = await AsyncStorage.getItem('userId');
     try {
       const response = await axios.get(
-        `http://192.168.1.3:3000/users/${userId}`
+        `http://127.0.0.1:3000/users/${userId}`
       );
       const userData = response.data;
 

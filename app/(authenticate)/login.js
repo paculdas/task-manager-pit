@@ -43,7 +43,7 @@ const Login = () => {
     };
   
     try {
-      const response = await axios.post("http://192.168.1.3:3000/login", user);
+      const response = await axios.post("http://127.0.0.1:3000/login", user);
       const token = response.data.token;
   
       if (!token) {

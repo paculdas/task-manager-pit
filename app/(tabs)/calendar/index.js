@@ -26,7 +26,7 @@ const index = () => {
       const formattedDate = moment(selectedDate).format("YYYY-MM-DD"); // Format the date string if needed
   
       const response = await axios.get(
-        `http://192.168.1.3:3000/todos/completed/${formattedDate}/${userId}`
+        `http://127.0.0.1:3000/todos/completed/${formattedDate}/${userId}`
       );
   
       const completedTodos = response.data.completedTodos || [];
@@ -60,7 +60,7 @@ const index = () => {
 
   const handleDeleteTask = async (todoIdDelete) => {
     try {
-      const response = await axios.delete(`http://192.168.1.3:3000/todos/${todoIdDelete}`);
+      const response = await axios.delete(`http://127.0.0.1:3000/todos/${todoIdDelete}`);
       console.log("Task deleted successfully:", response.data);
 
       await fetchCompletedTodos();
