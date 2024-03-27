@@ -29,6 +29,10 @@ mongoose
     console.log("Error connecting to MongoDB", error);
   });
 
+app.listen(port, () => {
+  console.log("Server is running on port 3000");
+});
+
 const User = require("./models/user");
 const Todo = require("./models/todo");
 
