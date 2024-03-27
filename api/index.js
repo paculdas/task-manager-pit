@@ -2,33 +2,32 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const crypto = require("crypto");
+const cors = require("cors");
 
 const app = express();
-const port = 3000;
-const cors = require("cors");
-app.use(cors({
-  origin:"*",
-  methods:['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
-}));
+const port = process.env.PORT || 3000; // Use the provided port by Vercel or default to 3000
+
+app.use(cors()); // Allow all origins
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+
 const jwt = require("jsonwebtoken");
 const moment = require("moment");
 
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/mydatabase";
 mongoose
-  .connect("mongodb+srv://Paculdas:Jarcvenz@dbtest.pfkpk8u.mongodb.net/")
+  .connect(MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
   .then(() => {
     console.log("Connected to MongoDB");
   })
   .catch((error) => {
     console.log("Error connecting to MongoDB", error);
   });
-
-app.listen(port, () => {
-  console.log("Server is running on port 3000");
-});
 
 const User = require("./models/user");
 const Todo = require("./models/todo");
