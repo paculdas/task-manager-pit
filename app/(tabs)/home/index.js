@@ -28,6 +28,7 @@ import FlashMessage from "react-native-flash-message";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { firstTimeLogin } from '../../(authenticate)/login';
 import { useRoute } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 
 const Index = () => {
   const [todos, setTodos] = useState([]);
@@ -39,8 +40,6 @@ const Index = () => {
   const [completedTodos, setCompletedTodos] = useState([]);
   const [hasLoggedInOnce, setHasLoggedInOnce] = useState(false);
   const [marked, setMarked] = useState(false);
-  const [completedTasks, setCompletedTasks] = useState(0);
-  const [pendingTasks, setPendingTasks] = useState(0);
 
   const suggestions = [
     {
@@ -80,7 +79,6 @@ const Index = () => {
       );
   
       await getUserTodos();
-      await fetchTaskCount();
   
       setTodo("");
       setModalVisible(false);
@@ -89,18 +87,6 @@ const Index = () => {
     }
   };
 
-  const fetchTaskCount = async () => {
-    const userId = await AsyncStorage.getItem('userId');
-    try {
-      const response = await axios.get(`https://task-db-rosy.vercel.app/todos/${userId}/count`);
-      const { totalCompletedTodos, totalPendingTodos } = response.data;
-      setCompletedTasks(totalCompletedTodos);
-      setPendingTasks(totalPendingTodos);
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-  
   const getUserTodos = async () => {
     try {
       const userId = await AsyncStorage.getItem('userId');
@@ -139,13 +125,8 @@ const Index = () => {
     const checkFirstTimeLogin = async () => {
       try {
         const isFirstTimeLogin = await AsyncStorage.getItem('firstTimeLogin');
-        if (!isFirstTimeLogin) {
-          // Perform actions for first-time login
-          console.log("You've successfully logged in for the first time!");
-          setHasLoggedInOnce(true); // Update state to indicate that first-time login has occurred
-          await AsyncStorage.setItem('firstTimeLogin', 'true'); // Set flag indicating first-time login
-        } else {
-           handleFlashMessage("Success!", "You have successfully logged in", "success");
+        if (isFirstTimeLogin) {
+          handleFlashMessage("Success!", "You have successfully logged in", "success");
         }
       } catch (error) {
         console.error('Error checking first-time login:', error);
@@ -157,10 +138,13 @@ const Index = () => {
     }
   }, []);
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    getUserTodos()
-    fetchTaskCount();
-  }, [category, marked, isModalVisible])
+    if (isFocused) {
+      getUserTodos();
+    } 
+  }, [isFocused, category, marked, isModalVisible]);
 
   const markTodoAsCompleted = async (todoId) => {
     try {

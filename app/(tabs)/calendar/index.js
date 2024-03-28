@@ -13,6 +13,7 @@ import {
 } from "@expo/vector-icons";
 import FlashMessage from "react-native-flash-message";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useIsFocused } from '@react-navigation/native';
 
 const index = () => {
   const today = moment().format("YYYY-MM-DD");
@@ -47,10 +48,14 @@ const index = () => {
       icon: () => <FontAwesome name="check-circle" size={24} color="white" style={{paddingRight: 20, paddingTop: 14}}/>
     });
   }
-  
+
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    fetchCompletedTodos();
-  }, [selectedDate]);
+    if (isFocused) {
+      fetchCompletedTodos();
+    } 
+  }, [isFocused, selectedDate]);
 
   console.log(todos);
 

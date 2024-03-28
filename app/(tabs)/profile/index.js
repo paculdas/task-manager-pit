@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
+import { useIsFocused } from "@react-navigation/native";
 
 const Index = () => {
   const [completedTasks, setCompletedTasks] = useState(0);
@@ -47,14 +48,15 @@ const Index = () => {
     }
   };
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    fetchTaskData();
-    fetchUser();
+    if (isFocused) {
+      fetchTaskData();
+      fetchUser();
+    }
+  }, [isFocused]);
 
-    const intervalId = setInterval(fetchTaskData, 1000);
-
-    return () => clearInterval(intervalId);
-  }, []);
 
   const handleLogout = async () => {
     try {
