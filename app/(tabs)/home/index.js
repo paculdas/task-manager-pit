@@ -75,7 +75,7 @@ const Index = () => {
       };
   
       await axios.post(
-        `http://127.0.0.1:3000/todos/${userId}`,
+        `https://task-db-rosy.vercel.app/todos/${userId}`,
         todoData
       );
   
@@ -92,7 +92,7 @@ const Index = () => {
   const fetchTaskCount = async () => {
     const userId = await AsyncStorage.getItem('userId');
     try {
-      const response = await axios.get(`http://127.0.0.1:3000/todos/${userId}/count`);
+      const response = await axios.get(`https://task-db-rosy.vercel.app/todos/${userId}/count`);
       const { totalCompletedTodos, totalPendingTodos } = response.data;
       setCompletedTasks(totalCompletedTodos);
       setPendingTasks(totalPendingTodos);
@@ -104,7 +104,7 @@ const Index = () => {
   const getUserTodos = async () => {
     try {
       const userId = await AsyncStorage.getItem('userId');
-      const response = await axios.get(`http://127.0.0.1:3000/users/${userId}/todos`);
+      const response = await axios.get(`https://task-db-rosy.vercel.app/users/${userId}/todos`);
   
       const fetchedTodos = response.data.todos || [];
   
@@ -165,7 +165,7 @@ const Index = () => {
   const markTodoAsCompleted = async (todoId) => {
     try {
       setMarked(true);
-      await axios.patch(`http://127.0.0.1:3000/todos/${todoId}/complete`);
+      await axios.patch(`https://task-db-rosy.vercel.app/todos/${todoId}/complete`);
       await getUserTodos();
       handleFlashMessage("Task marked as completed!", "Task successfully marked as completed", "success");
     } catch (error) {
@@ -175,7 +175,7 @@ const Index = () => {
   
   const handleDeleteTask = async (todoIdDelete) => {
     try {
-      await axios.delete(`http://127.0.0.1:3000/todos/${todoIdDelete}`);
+      await axios.delete(`https://task-db-rosy.vercel.app/todos/${todoIdDelete}`);
       await getUserTodos();
       handleFlashMessage("Task Deleted!", "Task successfully deleted", "success");
     } catch (error) {

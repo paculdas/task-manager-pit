@@ -26,7 +26,7 @@ const register = () => {
       password: password
     }
 
-    axios.post("http://127.0.0.1:3000/register", user).then((response) => {
+    axios.post("https://task-db-rosy.vercel.app/register", user).then((response) => {
       console.log(response);
       Alert.alert("Registration successful", "You have been registered successfully");
       setEmail("");

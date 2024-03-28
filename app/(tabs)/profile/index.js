@@ -23,7 +23,7 @@ const Index = () => {
   const fetchTaskData = async () => {
     const userId = await AsyncStorage.getItem('userId');
     try {
-      const response = await axios.get(`http://127.0.0.1:3000/todos/${userId}/count`);
+      const response = await axios.get(`https://task-db-rosy.vercel.app/todos/${userId}/count`);
       const { totalCompletedTodos, totalPendingTodos } = response.data;
       setCompletedTasks(totalCompletedTodos);
       setPendingTasks(totalPendingTodos);
@@ -36,7 +36,7 @@ const Index = () => {
     const userId = await AsyncStorage.getItem('userId');
     try {
       const response = await axios.get(
-        `http://127.0.0.1:3000/users/${userId}`
+        `https://task-db-rosy.vercel.app/users/${userId}`
       );
       const userData = response.data;
 
